@@ -393,11 +393,67 @@
                         <outlet property="pbC" destination="fUf-2i-Lsy" id="3EE-eh-w04"/>
                         <outlet property="pbD" destination="7Ba-Vo-B1x" id="eVZ-3H-6mr"/>
                         <outlet property="questionText" destination="0of-To-3OQ" id="Mui-8n-cpQ"/>
+                        <segue destination="S1I-Ke-9bh" kind="show" identifier="showFinalVC" id="yj5-LY-yFl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-10.4" y="28.335832083958024"/>
+        </scene>
+        <!--Final View Controller-->
+        <scene sceneID="ATg-PN-g49">
+            <objects>
+                <viewController id="S1I-Ke-9bh" customClass="FinalViewController" customModule="Millionaire_CV" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="nz5-cJ-CSS">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Без имени-1" translatesAutoresizingMaskIntoConstraints="NO" id="9le-nS-ozn">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="umA-HS-s0m">
+                                <rect key="frame" x="20" y="447" width="335" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="mCo-6Z-naE"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yfl-9g-rVo">
+                                <rect key="frame" x="20" y="567" width="335" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="yEe-RO-KLn"/>
+                                </constraints>
+                                <state key="normal" title="Сыграть еще раз!"/>
+                                <connections>
+                                    <action selector="oneMore:" destination="S1I-Ke-9bh" eventType="touchUpInside" id="1uP-IE-hIE"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="9le-nS-ozn" firstAttribute="leading" secondItem="F4A-jl-hqm" secondAttribute="leading" id="3av-CM-GPX"/>
+                            <constraint firstItem="F4A-jl-hqm" firstAttribute="trailing" secondItem="9le-nS-ozn" secondAttribute="trailing" id="9xb-Xt-6Xm"/>
+                            <constraint firstItem="9le-nS-ozn" firstAttribute="top" secondItem="nz5-cJ-CSS" secondAttribute="top" id="EWp-0v-c5R"/>
+                            <constraint firstItem="F4A-jl-hqm" firstAttribute="trailing" secondItem="yfl-9g-rVo" secondAttribute="trailing" constant="20" id="Mm7-eE-nEf"/>
+                            <constraint firstItem="F4A-jl-hqm" firstAttribute="trailing" secondItem="umA-HS-s0m" secondAttribute="trailing" constant="20" id="NSz-0r-8TE"/>
+                            <constraint firstItem="F4A-jl-hqm" firstAttribute="bottom" secondItem="9le-nS-ozn" secondAttribute="bottom" id="OTQ-39-61q"/>
+                            <constraint firstItem="umA-HS-s0m" firstAttribute="leading" secondItem="F4A-jl-hqm" secondAttribute="leading" constant="20" id="XqT-aZ-mCT"/>
+                            <constraint firstItem="yfl-9g-rVo" firstAttribute="top" secondItem="umA-HS-s0m" secondAttribute="bottom" constant="20" id="d9b-Ux-GtD"/>
+                            <constraint firstItem="yfl-9g-rVo" firstAttribute="leading" secondItem="F4A-jl-hqm" secondAttribute="leading" constant="20" id="i1T-YP-96g"/>
+                            <constraint firstItem="F4A-jl-hqm" firstAttribute="bottom" secondItem="umA-HS-s0m" secondAttribute="bottom" constant="120" id="pEU-GH-O8F"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="F4A-jl-hqm"/>
+                    </view>
+                    <connections>
+                        <outlet property="oneMoreButton" destination="yfl-9g-rVo" id="ysU-6g-jSa"/>
+                        <outlet property="text" destination="umA-HS-s0m" id="g0w-EC-DHf"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lQE-m5-zLk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="896.79999999999995" y="27.436281859070466"/>
         </scene>
     </scenes>
     <resources>

@@ -36,27 +36,29 @@ class ViewController: UIViewController {
     // MARK: - Properties
     private let questions = MyData.shared.questions
     private var qNbr = 0
-    private var fiftyIsUsed = 0
-        // TODO: - Refactoring
-        // private var isFiftyUsed = false
+    private var isFiftyUsed = false
+    private var isAskUsed = false
+    private var isCallUsed = false
+    private var isFiftyUsedNow = false
     var answerButtons: [UIButton] {
         return [btnA, btnB, btnC, btnD]
     }
-    
-    var isSimulator: Bool {
-        #if (arch(i386) || arch(x86_64)) && os(iOS)
-            return true
-        #else
-            return false
-        #endif
+    var hintButtons: [UIButton] {
+        return [askAudience, callFriendButton, fiftyFifty]
     }
     
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         AskView.isHidden = true
         afterAnswerView.isHidden = true
         showQuestionWithNbr(qNbr: 0)
+        qNbr = 0
         afterAnswerView.layer.cornerRadius = 10
         AskView.layer.cornerRadius = 10
         for btn in answerButtons {
@@ -79,18 +81,17 @@ class ViewController: UIViewController {
             afterAnswerView.isHidden = true
             self.qNbr += 1
             self.showQuestionWithNbr(qNbr: self.qNbr)
-            //refreshBtnColors()
         } else if (nextButton.currentTitle == "OK") {
+            performSegue(withIdentifier: "showFinalVC", sender: nil)
             afterAnswerView.isHidden = true
-            callFriendButton.isEnabled = false
+        } else if (nextButton.currentTitle == "Wow!") {
+            afterAnswerView.isHidden = true
         } else {
             self.qNbr = 0
-            
-            // TODO: - renew hints
-            
             self.showQuestionWithNbr(qNbr: self.qNbr)
             afterAnswerView.isHidden = true
         }
+        unblockButtons()
     }
     
     @IBAction private func fiftyFifty(_ sender: UIButton) {
@@ -103,31 +104,37 @@ class ViewController: UIViewController {
             btn?.isEnabled = false
             btn?.setTitle("", for: .normal)
         }
-        fiftyIsUsed = 1
+        isFiftyUsedNow = true
+        isFiftyUsed = true
     }
     
     @IBAction private func askButton(_ sender: UIButton) {
         AskView.isHidden = true
+        unblockButtons()
     }
     
     @IBAction private func askAudience(_ sender: UIButton) {
-        if fiftyIsUsed == 1 {
+        if isFiftyUsedNow == true {
             askForTwo()
         } else {
             askForFour()
         }
         askAudience.isEnabled = false
+        isAskUsed = true
+        blockButtons()
     }
     
     @IBAction private func callFriend(_ sender: UIButton) {
         afterAnswerView.isHidden = false
         correctLabel.text = ""
         hintLabel.text = "Небывалая интерактивность! Позвони по номеру +38096-31-44-622 и получишь ответ!"
-        self.nextButton.setTitle("ОК", for: .normal)
+        self.nextButton.setTitle("Wow!", for: .normal)
+        callFriendButton.isEnabled = false
+        isCallUsed = true
+        blockButtons()
     }
 
     // MARK: - Methods
-    
     private func askForTwo() {
         let lblArr = [lblA, lblB, lblC, lblD]
         var pbArr = [pbA, pbB, pbC, pbD]
@@ -165,9 +172,6 @@ class ViewController: UIViewController {
         arrPB[questions[qNbr].correctAns]?.progress = Float(voteArray[0])/100
         arrPB.remove(at: questions[qNbr].correctAns)
         voteArray.remove(at: 0)
-        
-        // TODO: - For int
-        
         for i in 0..<3 {
             arrPB[i]!.progress = Float(voteArray[i])/100
         }
@@ -182,8 +186,8 @@ class ViewController: UIViewController {
         if qNbr == questions.count - 1 {
             correctLabel.text = "Победа!"
             correctLabel.textColor = .red
-            hintLabel.text = questions[qNbr].hintA
-            self.nextButton.setTitle("Начать сначала", for: .normal)
+            hintLabel.text = questions[qNbr].hintB
+            self.nextButton.setTitle("OK", for: .normal)
         } else {
             correctLabel.text = "Правильно!"
             switch tag {
@@ -205,11 +209,33 @@ class ViewController: UIViewController {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                     btn.backgroundColor = UIColor(red: 4/255, green: 213/255, blue: 134/255, alpha: 1)
                     self.afterAnswerView.isHidden = false
+                    self.blockButtons()
                 }
             }
         }
     }
     
+    private func blockButtons () {
+        let allButtons = answerButtons + hintButtons
+        for btn in allButtons {
+            btn.isEnabled = false
+        }
+    }
+    
+    private func unblockButtons () {
+        for btn in answerButtons {
+            btn.isEnabled = true
+        }
+        if isFiftyUsed == false {
+            fiftyFifty.isEnabled = true
+        }
+        if isAskUsed == false {
+            askAudience.isEnabled = true
+        }
+        if isCallUsed == false {
+            callFriendButton.isEnabled = true
+        }
+    }
     private func showIncorrectAlert(tag: Int) {
         correctLabel.text = "Неправильно!"
         switch tag {
@@ -233,6 +259,7 @@ class ViewController: UIViewController {
                 }
             }
         }
+        blockButtons()
     }
     
     private func showQuestionWithNbr(qNbr: Int) {
@@ -245,10 +272,14 @@ class ViewController: UIViewController {
             btn.backgroundColor = UIColor(red: 2/255, green: 53/255, blue: 143/255, alpha: 1)
             btn.isEnabled = true
         }
+        isFiftyUsedNow = false
         if qNbr == 0 {
-            fiftyIsUsed = 0
+            isFiftyUsed = false
+            isAskUsed = false
+            isCallUsed = false
             askAudience.isEnabled = true
             fiftyFifty.isEnabled = true
+            callFriendButton.isEnabled = true
             let lblArr = [lblA, lblB, lblC, lblD]
             var pbArr = [pbA, pbB, pbC, pbD]
             for i in 0...3 {
@@ -257,6 +288,4 @@ class ViewController: UIViewController {
             }
         }
     }
-    
-   
 }

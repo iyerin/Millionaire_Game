@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		0970EE36227F44F100074B05 /* UIButton+Blink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0970EE35227F44F100074B05 /* UIButton+Blink.swift */; };
+		7849D2C1227F72030086939D /* FinalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7849D2C0227F72030086939D /* FinalViewController.swift */; };
+		7849D2C3227F75720086939D /* UIImage+Gif.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7849D2C2227F75720086939D /* UIImage+Gif.swift */; };
+		7849D2C8227F78430086939D /* 1234.gif in Resources */ = {isa = PBXBuildFile; fileRef = 7849D2C7227F78430086939D /* 1234.gif */; };
 		7876931B227E0CCE0006E8BE /* MyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7876931A227E0CCE0006E8BE /* MyData.swift */; };
 		78DB0A4F227C55E900F0CFF9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DB0A4E227C55E900F0CFF9 /* AppDelegate.swift */; };
 		78DB0A51227C55E900F0CFF9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DB0A50227C55E900F0CFF9 /* ViewController.swift */; };
@@ -19,6 +22,9 @@
 
 /* Begin PBXFileReference section */
 		0970EE35227F44F100074B05 /* UIButton+Blink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Blink.swift"; sourceTree = "<group>"; };
+		7849D2C0227F72030086939D /* FinalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalViewController.swift; sourceTree = "<group>"; };
+		7849D2C2227F75720086939D /* UIImage+Gif.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Gif.swift"; sourceTree = "<group>"; };
+		7849D2C7227F78430086939D /* 1234.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = 1234.gif; sourceTree = "<group>"; };
 		7876931A227E0CCE0006E8BE /* MyData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyData.swift; sourceTree = "<group>"; };
 		78DB0A4B227C55E900F0CFF9 /* Millionaire_CV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Millionaire_CV.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		78DB0A4E227C55E900F0CFF9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -64,11 +70,14 @@
 				78DB0A50227C55E900F0CFF9 /* ViewController.swift */,
 				7876931A227E0CCE0006E8BE /* MyData.swift */,
 				78DB0A52227C55E900F0CFF9 /* Main.storyboard */,
+				7849D2C2227F75720086939D /* UIImage+Gif.swift */,
+				7849D2C0227F72030086939D /* FinalViewController.swift */,
 				78DB0A60227C979F00F0CFF9 /* StartViewController.swift */,
 				78DB0A55227C55E900F0CFF9 /* Assets.xcassets */,
 				78DB0A57227C55E900F0CFF9 /* LaunchScreen.storyboard */,
 				78DB0A5A227C55E900F0CFF9 /* Info.plist */,
 				0970EE35227F44F100074B05 /* UIButton+Blink.swift */,
+				7849D2C7227F78430086939D /* 1234.gif */,
 			);
 			path = Millionaire_CV;
 			sourceTree = "<group>";
@@ -134,6 +143,7 @@
 			files = (
 				78DB0A59227C55E900F0CFF9 /* LaunchScreen.storyboard in Resources */,
 				78DB0A56227C55E900F0CFF9 /* Assets.xcassets in Resources */,
+				7849D2C8227F78430086939D /* 1234.gif in Resources */,
 				78DB0A54227C55E900F0CFF9 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -146,6 +156,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				0970EE36227F44F100074B05 /* UIButton+Blink.swift in Sources */,
+				7849D2C1227F72030086939D /* FinalViewController.swift in Sources */,
+				7849D2C3227F75720086939D /* UIImage+Gif.swift in Sources */,
 				78DB0A51227C55E900F0CFF9 /* ViewController.swift in Sources */,
 				78DB0A4F227C55E900F0CFF9 /* AppDelegate.swift in Sources */,
 				78DB0A61227C979F00F0CFF9 /* StartViewController.swift in Sources */,
