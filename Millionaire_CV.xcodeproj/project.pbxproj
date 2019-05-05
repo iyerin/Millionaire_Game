@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0970EE36227F44F100074B05 /* UIButton+Blink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0970EE35227F44F100074B05 /* UIButton+Blink.swift */; };
 		7876931B227E0CCE0006E8BE /* MyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7876931A227E0CCE0006E8BE /* MyData.swift */; };
 		78DB0A4F227C55E900F0CFF9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DB0A4E227C55E900F0CFF9 /* AppDelegate.swift */; };
 		78DB0A51227C55E900F0CFF9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DB0A50227C55E900F0CFF9 /* ViewController.swift */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0970EE35227F44F100074B05 /* UIButton+Blink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Blink.swift"; sourceTree = "<group>"; };
 		7876931A227E0CCE0006E8BE /* MyData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyData.swift; sourceTree = "<group>"; };
 		78DB0A4B227C55E900F0CFF9 /* Millionaire_CV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Millionaire_CV.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		78DB0A4E227C55E900F0CFF9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -66,6 +68,7 @@
 				78DB0A55227C55E900F0CFF9 /* Assets.xcassets */,
 				78DB0A57227C55E900F0CFF9 /* LaunchScreen.storyboard */,
 				78DB0A5A227C55E900F0CFF9 /* Info.plist */,
+				0970EE35227F44F100074B05 /* UIButton+Blink.swift */,
 			);
 			path = Millionaire_CV;
 			sourceTree = "<group>";
@@ -142,6 +145,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0970EE36227F44F100074B05 /* UIButton+Blink.swift in Sources */,
 				78DB0A51227C55E900F0CFF9 /* ViewController.swift in Sources */,
 				78DB0A4F227C55E900F0CFF9 /* AppDelegate.swift in Sources */,
 				78DB0A61227C979F00F0CFF9 /* StartViewController.swift in Sources */,

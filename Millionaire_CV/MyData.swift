@@ -137,7 +137,7 @@ class MyData {
 //                 hintB: "На первых порах без этого было никуда:)",
 //                 hintC: "Да, верно. Хотя способ с телеграмом ведь тоже неплох!)",
 //                 hintD: "Нет. ничего кроме GIT не трогал"),
-//        Question(text: "Выбрав следующий после С язык для изучения, мне пришлось выучить: OOP, autolayout, tableview, API, MapKit, GestureRecognizer, pods и многое другое. Этим языком был:",
+//        Question(text: "Выбрав следующий после С язык для изучения, мне пришлось выучить: OOP, Autolayout, UIKit, TableView, API, MapKit, GestureRecognizer, CocoaPods и многое другое. Этим языком был:",
 //                 ansA: "А: С++",
 //                 ansB: "B: SWIFT",
 //                 ansC: "C: Java",

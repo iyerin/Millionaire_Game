@@ -379,6 +379,7 @@
                         <outlet property="btnB" destination="e6I-Sa-THA" id="hpP-de-suE"/>
                         <outlet property="btnC" destination="1hZ-a3-fyd" id="imx-Nc-w9e"/>
                         <outlet property="btnD" destination="ff5-2Z-NgD" id="1Yv-aI-BIg"/>
+                        <outlet property="callFriendButton" destination="1hJ-gY-HSp" id="6Qk-1D-Ly1"/>
                         <outlet property="correctLabel" destination="xbr-66-mrv" id="Sba-kA-EqU"/>
                         <outlet property="fiftyFifty" destination="4G5-7z-8v0" id="azT-l7-Cgc"/>
                         <outlet property="hintLabel" destination="aoc-6M-kbf" id="D59-w6-OwD"/>

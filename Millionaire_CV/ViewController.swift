@@ -10,23 +10,6 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    // MARK: - Properties
-    private let questions = MyData.shared.questions
-    private var qNbr = 0
-    private var fiftyIsUsed = 0
-        // private var isFiftyUsed = false
-    var answerButtons: [UIButton] {
-        return [btnA, btnB, btnC, btnD]
-    }
-    var isSimulator: Bool {
-        #if (arch(i386) || arch(x86_64)) && os(iOS)
-            return true
-        #else
-            return false
-        #endif
-    }
-    
-    // MARK: -
     // MARK: - Outlets
     @IBOutlet private weak var btnA: UIButton!
     @IBOutlet private weak var btnB: UIButton!
@@ -48,9 +31,41 @@ class ViewController: UIViewController {
     @IBOutlet weak var lblC: UILabel!
     @IBOutlet weak var lblD: UILabel!
     @IBOutlet weak var askAudience: UIButton!
+    @IBOutlet weak var callFriendButton: UIButton!
     
-    // MARK: -
-    // MARK: - Buttons
+    // MARK: - Properties
+    private let questions = MyData.shared.questions
+    private var qNbr = 0
+    private var fiftyIsUsed = 0
+        // TODO: - Refactoring
+        // private var isFiftyUsed = false
+    var answerButtons: [UIButton] {
+        return [btnA, btnB, btnC, btnD]
+    }
+    
+    var isSimulator: Bool {
+        #if (arch(i386) || arch(x86_64)) && os(iOS)
+            return true
+        #else
+            return false
+        #endif
+    }
+    
+    // MARK: - LifeCycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        AskView.isHidden = true
+        afterAnswerView.isHidden = true
+        showQuestionWithNbr(qNbr: 0)
+        afterAnswerView.layer.cornerRadius = 10
+        AskView.layer.cornerRadius = 10
+        for btn in answerButtons {
+            btn.layer.cornerRadius = 5
+            btn.layer.masksToBounds = true
+        }
+    }
+    
+    // MARK: - Buttons actions
     @IBAction private func buttons(_ sender: UIButton) {
         if sender.tag == questions[qNbr].correctAns {
             nextQuestion(qNbr: qNbr, tag: sender.tag)
@@ -59,21 +74,26 @@ class ViewController: UIViewController {
         }
     }
     
-    @IBAction func nextButton(_ sender: UIButton) {
+    @IBAction private func nextButton(_ sender: UIButton) {
         if (nextButton.currentTitle!) == "Продолжить" {
             afterAnswerView.isHidden = true
             self.qNbr += 1
             self.showQuestionWithNbr(qNbr: self.qNbr)
             //refreshBtnColors()
+        } else if (nextButton.currentTitle == "OK") {
+            afterAnswerView.isHidden = true
+            callFriendButton.isEnabled = false
         } else {
             self.qNbr = 0
-//renew hints
+            
+            // TODO: - renew hints
+            
             self.showQuestionWithNbr(qNbr: self.qNbr)
             afterAnswerView.isHidden = true
         }
     }
     
-    @IBAction func fiftyFifty(_ sender: UIButton) {
+    @IBAction private func fiftyFifty(_ sender: UIButton) {
         fiftyFifty.isEnabled = false
         var arr = [btnA, btnB, btnC, btnD]
         arr.remove(at: questions[qNbr].correctAns)
@@ -86,11 +106,11 @@ class ViewController: UIViewController {
         fiftyIsUsed = 1
     }
     
-    @IBAction func askButton(_ sender: UIButton) {
+    @IBAction private func askButton(_ sender: UIButton) {
         AskView.isHidden = true
     }
     
-    @IBAction func askAudience(_ sender: UIButton) {
+    @IBAction private func askAudience(_ sender: UIButton) {
         if fiftyIsUsed == 1 {
             askForTwo()
         } else {
@@ -99,29 +119,16 @@ class ViewController: UIViewController {
         askAudience.isEnabled = false
     }
     
-    @IBAction func callFriend(_ sender: UIButton) {
-        
-        //if
-        //let cleanPhoneNumber = phone.components(separatedBy: CharacterSet.decimalDigits.inverted).joined(separator: "")
-        //        let urlString:String = "tel://+380963144622"
-        //
-        //        if let phoneCallURL = URL(string: urlString) {
-        //            if (UIApplication.shared.canOpenURL(phoneCallURL)) {
-        //                UIApplication.shared.open(phoneCallURL, options: [:], completionHandler: nil)
-        //            }
-        //        }
-        
-        if isSimulator {
-            print(1)
-        } else {
-            print(2)
-        }
+    @IBAction private func callFriend(_ sender: UIButton) {
+        afterAnswerView.isHidden = false
+        correctLabel.text = ""
+        hintLabel.text = "Небывалая интерактивность! Позвони по номеру +38096-31-44-622 и получишь ответ!"
+        self.nextButton.setTitle("ОК", for: .normal)
     }
 
-    // MARK: -
     // MARK: - Methods
     
-    func askForTwo() {
+    private func askForTwo() {
         let lblArr = [lblA, lblB, lblC, lblD]
         var pbArr = [pbA, pbB, pbC, pbD]
         let randomVoteA = Int(arc4random_uniform(UInt32(60)) + UInt32(40))
@@ -147,17 +154,20 @@ class ViewController: UIViewController {
         AskView.isHidden = false
     }
     
-    func askForFour() {
+    private func askForFour() {
         let randomVoteA = Int(arc4random_uniform(UInt32(50)) + UInt32(35))
         let randomVoteB = Int(arc4random_uniform(UInt32(100 - randomVoteA)))
         let randomVoteC = Int(arc4random_uniform(UInt32(100 - randomVoteA - randomVoteB)))
-        let randomVoteD = (100 - randomVoteA - randomVoteB - randomVoteC)
+        let randomVoteD = 100 - randomVoteA - randomVoteB - randomVoteC
         var voteArray = [randomVoteA, randomVoteB, randomVoteC, randomVoteD]
         
         var arrPB = [pbA, pbB, pbC, pbD]
         arrPB[questions[qNbr].correctAns]?.progress = Float(voteArray[0])/100
         arrPB.remove(at: questions[qNbr].correctAns)
         voteArray.remove(at: 0)
+        
+        // TODO: - For int
+        
         for i in 0..<3 {
             arrPB[i]!.progress = Float(voteArray[i])/100
         }
@@ -168,7 +178,7 @@ class ViewController: UIViewController {
         AskView.isHidden = false
     }
 
-    func nextQuestion(qNbr: Int, tag: Int) {
+    private func nextQuestion(qNbr: Int, tag: Int) {
         if qNbr == questions.count - 1 {
             correctLabel.text = "Победа!"
             correctLabel.textColor = .red
@@ -200,7 +210,7 @@ class ViewController: UIViewController {
         }
     }
     
-    func showIncorrectAlert(tag: Int) {
+    private func showIncorrectAlert(tag: Int) {
         correctLabel.text = "Неправильно!"
         switch tag {
         case 0:
@@ -225,7 +235,7 @@ class ViewController: UIViewController {
         }
     }
     
-    func showQuestionWithNbr(qNbr: Int) {
+    private func showQuestionWithNbr(qNbr: Int) {
         self.btnA.setTitle(self.questions[qNbr].ansA, for: .normal)
         self.btnB.setTitle(self.questions[qNbr].ansB, for: .normal)
         self.btnC.setTitle(self.questions[qNbr].ansC, for: .normal)
@@ -248,116 +258,5 @@ class ViewController: UIViewController {
         }
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        AskView.isHidden = true
-        afterAnswerView.isHidden = true
-        showQuestionWithNbr(qNbr: 0)
-        afterAnswerView.layer.cornerRadius = 10
-        AskView.layer.cornerRadius = 10
-        for btn in answerButtons {
-            btn.layer.cornerRadius = 5
-            btn.layer.masksToBounds = true
-        }
-//        answerButtons.forEach { (btn: UIButton) in
-//            btn.layer.cornerRadius = 5
-//            btn.layer.masksToBounds = true
-//        }
-    }
-
+   
 }
-
-extension UIButton {
-    open override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        return self.bounds.contains(point) ? self : nil
-    }
-    func blink(enabled: Bool = true, duration: CFTimeInterval = 1.0, stopAfter: CFTimeInterval = 0.0 ) {
-        enabled ? (UIView.animate(withDuration: duration, //Time duration you want,
-            delay: 0.0,
-            options: [.curveEaseInOut, .autoreverse, .repeat],
-            animations: { [weak self] in self?.alpha = 0.0 },
-            completion: { [weak self] _ in self?.alpha = 1.0 })) : self.layer.removeAllAnimations()
-        if !stopAfter.isEqual(to: 0.0) && enabled {
-            DispatchQueue.main.asyncAfter(deadline: .now() + stopAfter) { [weak self] in
-                self?.layer.removeAllAnimations()
-            }
-        }
-    }
-}
-
-/*
- зеленый
- 4
- 213
- 134
- 
- оранжевй
- 255
- 83
- 13
- 
- красный
- 255
- 29
- 32
- */
-
-//        let alert = UIAlertController(title:"Correct!", message: questions[qNbr].hint, preferredStyle: .alert)
-//        alert.addAction(UIAlertAction(title: "Next Question!", style: .default, handler: {
-//            action in
-//            self.qNbr += 1
-//            self.showQuestionWithNbr(qNbr: self.qNbr)
-//        }))
-//        self.present(alert, animated: true, completion: nil)
-
-//        let alert = UIAlertController(title:"Incorrect!", message: q1.hint, preferredStyle: .alert)
-//        alert.addAction(UIAlertAction(title: "Restart!", style: .default, handler: {
-//          _ in
-//            self.qNbr = 0
-////renew hints
-//            self.showQuestionWithNbr(qNbr: self.qNbr)
-//        }))
-//        self.present(alert, animated: true, completion: nil)
-
-
-//func nextQuestion(qNbr: Int) {
-//    let alert = UIAlertController(title:"Correct!", message: questions[qNbr].hint, preferredStyle: .alert)
-//    alert.addAction(UIAlertAction(title: "Next Question!", style: .default, handler: {
-//        action in
-//        self.qNbr += 1
-//        self.showQuestionWithNbr(qNbr: qNbr)
-//    }))
-//    self.present(alert, animated: true, completion: nil)
-//
-//}
-//func showFirstQuestion() {
-//    view.backgroundColor = .yellow
-//    questionText.text = q1.text
-//    btnA.setTitle(q1.ansA, for: .normal)
-//    btnB.setTitle(q1.ansB, for: .normal)
-//    btnC.setTitle(q1.ansC, for: .normal)
-//    btnD.setTitle(q1.ansD, for: .normal)
-//}
-//        if (sender.tag == 1) {
-//            view.backgroundColor = .red
-//        } else {
-//            view.backgroundColor = .blue
-//            sender.setTitle("rara", for: .normal)
-//        }
-
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "showStartScreen" {
-//            let vc = segue.destination as! StartViewController
-//        }
-//    }
-
-//        let tap = UITapGestureRecognizer(target: self, action: #selector(ViewController.tapFunction))
-//        btnA.isUserInteractionEnabled = true
-//        btnA.addGestureRecognizer(tap)
-//        btnB.isUserInteractionEnabled = true
-//        btnB.addGestureRecognizer(tap)
-//    }
-
-//    @objc func tapFunction(sender:UITapGestureRecognizer) {
-//
-//        print("tap working")
