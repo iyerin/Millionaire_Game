@@ -71,6 +71,7 @@
                     </view>
                     <connections>
                         <outlet property="helloLabel" destination="Gyo-oh-bcT" id="MHk-4m-ksJ"/>
+                        <outlet property="startButton" destination="dfG-gj-Gpx" id="O5J-91-Nz9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ODH-mH-nAI" userLabel="First Responder" sceneMemberID="firstResponder"/>
