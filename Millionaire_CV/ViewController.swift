@@ -8,6 +8,15 @@
 
 import UIKit
 
+
+/*TODO
+1) phone call - imagine friend
+2) hint labels
+3) ending - wrong hint
+ 4) question randomizer
+ 5) game progress
+ 6) reorginize labels maybe with code
+*/
 class ViewController: UIViewController {
     
     // MARK: - Outlets
@@ -54,7 +63,7 @@ class ViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        //let questions = MyData.shared.questions
         AskView.isHidden = true
         afterAnswerView.isHidden = true
         showQuestionWithNbr(qNbr: 0)
@@ -186,20 +195,20 @@ class ViewController: UIViewController {
         if qNbr == questions.count - 1 {
             correctLabel.text = "Победа!"
             correctLabel.textColor = .red
-            hintLabel.text = questions[qNbr].hintB
+            //hintLabel.text = questions[qNbr].hintB
             self.nextButton.setTitle("OK", for: .normal)
         } else {
             correctLabel.text = "Правильно!"
-            switch tag {
-            case 0:
-                hintLabel.text = questions[qNbr].hintA
-            case 1:
-                hintLabel.text = questions[qNbr].hintB
-            case 2:
-                hintLabel.text = questions[qNbr].hintC
-            default:
-                hintLabel.text = questions[qNbr].hintD
-            }
+//            switch tag {
+//            case 0:
+//                hintLabel.text = questions[qNbr].hintA
+//            case 1:
+//                hintLabel.text = questions[qNbr].hintB
+//            case 2:
+//                hintLabel.text = questions[qNbr].hintC
+//            default:
+//                hintLabel.text = questions[qNbr].hintD
+//            }
             self.nextButton.setTitle("Продолжить", for: .normal)
         }
         for btn in answerButtons {
@@ -238,16 +247,16 @@ class ViewController: UIViewController {
     }
     private func showIncorrectAlert(tag: Int) {
         correctLabel.text = "Неправильно!"
-        switch tag {
-        case 0:
-            hintLabel.text = questions[qNbr].hintA
-        case 1:
-            hintLabel.text = questions[qNbr].hintB
-        case 2:
-            hintLabel.text = questions[qNbr].hintC
-        default:
-            hintLabel.text = questions[qNbr].hintD
-        }
+//        switch tag {
+//        case 0:
+//            hintLabel.text = questions[qNbr].hintA
+//        case 1:
+//            hintLabel.text = questions[qNbr].hintB
+//        case 2:
+//            hintLabel.text = questions[qNbr].hintC
+//        default:
+//            hintLabel.text = questions[qNbr].hintD
+//        }
         self.nextButton.setTitle("Начать сначала", for: .normal)
         for btn in answerButtons {
             if btn.tag == tag {
