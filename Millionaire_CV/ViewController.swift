@@ -43,8 +43,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var callFriendButton: UIButton!
     
     // MARK: - Properties
-    private let questions = MyData.shared.questions
+    private var questions = MyData.shared.questions
     private var qNbr = 0
+    private var currentQuestion = 0
     private var isFiftyUsed = false
     private var isAskUsed = false
     private var isCallUsed = false
@@ -66,7 +67,8 @@ class ViewController: UIViewController {
         //let questions = MyData.shared.questions
         AskView.isHidden = true
         afterAnswerView.isHidden = true
-        showQuestionWithNbr(qNbr: 0)
+        //showQuestionWithNbr(qNbr: 0)
+        showNextQuestion(qNbr: 0)
         qNbr = 0
         afterAnswerView.layer.cornerRadius = 10
         AskView.layer.cornerRadius = 10
@@ -78,7 +80,7 @@ class ViewController: UIViewController {
     
     // MARK: - Buttons actions
     @IBAction private func buttons(_ sender: UIButton) {
-        if sender.tag == questions[qNbr].correctAns {
+        if sender.tag == questions[currentQuestion].correctAns {
             nextQuestion(qNbr: qNbr, tag: sender.tag)
         } else {
             showIncorrectAlert(tag: sender.tag)
@@ -89,7 +91,7 @@ class ViewController: UIViewController {
         if (nextButton.currentTitle!) == "Продолжить" {
             afterAnswerView.isHidden = true
             self.qNbr += 1
-            self.showQuestionWithNbr(qNbr: self.qNbr)
+            self.showNextQuestion(qNbr: self.qNbr)
         } else if (nextButton.currentTitle == "OK") {
             performSegue(withIdentifier: "showFinalVC", sender: nil)
             afterAnswerView.isHidden = true
@@ -97,7 +99,7 @@ class ViewController: UIViewController {
             afterAnswerView.isHidden = true
         } else {
             self.qNbr = 0
-            self.showQuestionWithNbr(qNbr: self.qNbr)
+            self.showNextQuestion(qNbr: self.qNbr)
             afterAnswerView.isHidden = true
         }
         unblockButtons()
@@ -192,7 +194,7 @@ class ViewController: UIViewController {
     }
 
     private func nextQuestion(qNbr: Int, tag: Int) {
-        if qNbr == questions.count - 1 {
+        if qNbr == 3/*questions.count - 1*/ {
             correctLabel.text = "Победа!"
             correctLabel.textColor = .red
             //hintLabel.text = questions[qNbr].hintB
@@ -271,12 +273,14 @@ class ViewController: UIViewController {
         blockButtons()
     }
     
-    private func showQuestionWithNbr(qNbr: Int) {
-        self.btnA.setTitle(self.questions[qNbr].ansA, for: .normal)
-        self.btnB.setTitle(self.questions[qNbr].ansB, for: .normal)
-        self.btnC.setTitle(self.questions[qNbr].ansC, for: .normal)
-        self.btnD.setTitle(self.questions[qNbr].ansD, for: .normal)
-        questionText.text = questions[qNbr].text
+    private func showNextQuestion(qNbr: Int) {
+        let index = Int(arc4random_uniform(UInt32(questions.count - 1)))
+        self.currentQuestion = index
+        self.btnA.setTitle(self.questions[index].ansA, for: .normal)
+        self.btnB.setTitle(self.questions[index].ansB, for: .normal)
+        self.btnC.setTitle(self.questions[index].ansC, for: .normal)
+        self.btnD.setTitle(self.questions[index].ansD, for: .normal)
+        questionText.text = questions[index].text
         for btn in answerButtons {
             btn.backgroundColor = UIColor(red: 2/255, green: 53/255, blue: 143/255, alpha: 1)
             btn.isEnabled = true
@@ -296,5 +300,35 @@ class ViewController: UIViewController {
                 pbArr[i]!.isHidden = false
             }
         }
+        print (questions.count)
+        questions.remove(at: index)
+        print (questions.count)
     }
+    
+//    private func showQuestionWithNbr(qNbr: Int) {
+//        self.btnA.setTitle(self.questions[qNbr].ansA, for: .normal)
+//        self.btnB.setTitle(self.questions[qNbr].ansB, for: .normal)
+//        self.btnC.setTitle(self.questions[qNbr].ansC, for: .normal)
+//        self.btnD.setTitle(self.questions[qNbr].ansD, for: .normal)
+//        questionText.text = questions[qNbr].text
+//        for btn in answerButtons {
+//            btn.backgroundColor = UIColor(red: 2/255, green: 53/255, blue: 143/255, alpha: 1)
+//            btn.isEnabled = true
+//        }
+//        isFiftyUsedNow = false
+//        if qNbr == 0 {
+//            isFiftyUsed = false
+//            isAskUsed = false
+//            isCallUsed = false
+//            askAudience.isEnabled = true
+//            fiftyFifty.isEnabled = true
+//            callFriendButton.isEnabled = true
+//            let lblArr = [lblA, lblB, lblC, lblD]
+//            var pbArr = [pbA, pbB, pbC, pbD]
+//            for i in 0...3 {
+//                lblArr[i]!.isHidden = false
+//                pbArr[i]!.isHidden = false
+//            }
+//        }
+//    }
 }
