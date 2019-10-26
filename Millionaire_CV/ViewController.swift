@@ -10,11 +10,7 @@ import UIKit
 
 
 /*TODO
-1) phone call - imagine friend
-2) hint labels
 3) ending - wrong hint
- 5) game progress
- 6) reorginize labels maybe with code
 */
 class ViewController: UIViewController {
     
@@ -40,6 +36,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var lblD: UILabel!
     @IBOutlet weak var askAudience: UIButton!
     @IBOutlet weak var callFriendButton: UIButton!
+    @IBOutlet weak var gameProgress: UILabel!
+    @IBOutlet weak var winAmount: UILabel!
     
     // MARK: - Properties
     private var questions = MyData.shared.questions
@@ -48,6 +46,7 @@ class ViewController: UIViewController {
     private var isFiftyUsed = false
     private var isAskUsed = false
     private var isCallUsed = false
+    private let winArray = ["0", "100", "500", "1 000", "5 000", "10 000", "50 000", "100 000","250 000","500 000","1 000 000"]
     private var isFiftyUsedNow = false
     var answerButtons: [UIButton] {
         return [btnA, btnB, btnC, btnD]
@@ -94,7 +93,7 @@ class ViewController: UIViewController {
         } else if (nextButton.currentTitle == "OK") {
             performSegue(withIdentifier: "showFinalVC", sender: nil)
             afterAnswerView.isHidden = true
-        } else if (nextButton.currentTitle == "Wow!") {
+        } else if (nextButton.currentTitle == "Thank you!") {
             afterAnswerView.isHidden = true
         } else {
             self.qNbr = 0
@@ -136,7 +135,7 @@ class ViewController: UIViewController {
     
     @IBAction private func callFriend(_ sender: UIButton) {
         var correctAnswerText = ""
-        let i = Int(arc4random_uniform(UInt32(9)))
+        let i = Int(arc4random_uniform(UInt32(10)))
         var arrAns = [questions[currentQuestion].ansA, questions[currentQuestion].ansB, questions[currentQuestion].ansC, questions[currentQuestion].ansD]
         if i < 9 {
             correctAnswerText = arrAns[questions[currentQuestion].correctAns]
@@ -145,12 +144,10 @@ class ViewController: UIViewController {
             let i = Int(arc4random_uniform(UInt32(2)))
             correctAnswerText = arrAns[i]
         }
-        
-        
         afterAnswerView.isHidden = false
         correctLabel.text = ""
         hintLabel.text = "Я думаю, правильный ответ ... " + correctAnswerText
-        self.nextButton.setTitle("Wow!", for: .normal)
+        self.nextButton.setTitle("Thank you!", for: .normal)
         callFriendButton.isEnabled = false
         isCallUsed = true
         blockButtons()
@@ -205,18 +202,22 @@ class ViewController: UIViewController {
     }
 
     private func nextQuestion(qNbr: Int, tag: Int) {
-        if qNbr == 3 {
+        if qNbr == 9 {
             correctLabel.text = "Победа!"
             correctLabel.textColor = .red
             //hintLabel.text = questions[qNbr].hintB
             self.nextButton.setTitle("OK", for: .normal)
         } else {
+            correctLabel.textColor = UIColor(red: 0/255, green: 122/255, blue: 255/255, alpha: 1)
             correctLabel.text = "Правильно!"
-            hintLabel.text = ""
+            hintLabel.font = UIFont.boldSystemFont(ofSize: 25.0)
+            hintLabel.textColor = UIColor(red: 4/255, green: 213/255, blue: 134/255, alpha: 1)
+            hintLabel.text = "Ваш выигрыш \n" + winArray[qNbr + 1] + "₴"
             self.nextButton.setTitle("Продолжить", for: .normal)
         }
         for btn in answerButtons {
             if btn.tag == tag {
+                self.blockButtons()
                 btn.backgroundColor = UIColor(red: 255/255, green: 83/255, blue: 13/255, alpha: 1)
                 btn.blink(enabled: true, duration: 0.5, stopAfter: 1.5)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
@@ -268,6 +269,7 @@ class ViewController: UIViewController {
         self.questions = MyData.shared.questions
         for btn in answerButtons {
             if btn.tag == tag {
+               // blockButtons()
                 btn.backgroundColor = UIColor(red: 255/255, green: 83/255, blue: 13/255, alpha: 1)
                 btn.blink(enabled: true, duration: 0.5, stopAfter: 1.5)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
@@ -280,6 +282,8 @@ class ViewController: UIViewController {
     }
     
     private func showNextQuestion(qNbr: Int) {
+        gameProgress.text = "Вопрос " + "\(qNbr + 1)" + " из 10"
+        winAmount.text = "Выигрыш: " + winArray[qNbr] + "₴"
         let index = Int(arc4random_uniform(UInt32(questions.count - 1)))
         self.currentQuestion = index
         self.btnA.setTitle(self.questions[index].ansA, for: .normal)

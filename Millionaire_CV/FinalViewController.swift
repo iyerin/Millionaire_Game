@@ -18,13 +18,10 @@ class FinalViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        text.text = "Поздравляю! Спасибо за участие в игре, надеюсь, все понравилось. Если хочешь увидеть смешные комментарии к другим ответам - просто нажми кнопку"
+        text.text = "Поздравляю! Спасибо за участие в игре, надеюсь, все понравилось!"
         let myGif = UIImage.gifImageWithName("1234")
         let imageView = UIImageView(image: myGif)
         imageView.frame = CGRect(x: 20.0, y: 50.0, width: self.view.frame.size.width - 40, height: 150.0)
         view.addSubview(imageView)
     }
-
-    
-
 }
