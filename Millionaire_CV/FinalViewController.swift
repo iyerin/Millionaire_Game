@@ -23,5 +23,10 @@ class FinalViewController: UIViewController {
         let imageView = UIImageView(image: myGif)
         imageView.frame = CGRect(x: 20.0, y: 50.0, width: self.view.frame.size.width - 40, height: 150.0)
         view.addSubview(imageView)
+        oneMoreButton.backgroundColor = .clear
+        oneMoreButton.layer.cornerRadius = 10
+        oneMoreButton.layer.borderWidth = 1
+        oneMoreButton.layer.borderColor = UIColor.white.cgColor
+        oneMoreButton.setTitleColor(.white, for: .normal)
     }
 }

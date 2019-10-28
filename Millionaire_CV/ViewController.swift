@@ -38,6 +38,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var callFriendButton: UIButton!
     @IBOutlet weak var gameProgress: UILabel!
     @IBOutlet weak var winAmount: UILabel!
+    @IBOutlet weak var askOkButton: UIButton!
     
     // MARK: - Properties
     private var questions = MyData.shared.questions
@@ -73,6 +74,19 @@ class ViewController: UIViewController {
             btn.layer.cornerRadius = 5
             btn.layer.masksToBounds = true
         }
+        askOkButton.backgroundColor = .clear
+        askOkButton.layer.cornerRadius = 10
+        askOkButton.layer.borderWidth = 1
+        askOkButton.layer.borderColor = UIColor.white.cgColor
+        let pbArr = [pbA, pbB, pbC, pbD]
+        for pb in pbArr {
+            pb?.trackTintColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0)
+            pb?.tintColor = UIColor(red: 4/255, green: 213/255, blue: 134/255, alpha: 1)
+        }
+//        pbA.trackTintColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0)
+//        pbA.tintColor = UIColor(red: 4/255, green: 213/255, blue: 134/255, alpha: 1)
+//        //pbA.layer.cornerRadius = 3
+//        pbA.clipsToBounds = true
     }
     
     // MARK: - Buttons actions
@@ -177,6 +191,8 @@ class ViewController: UIViewController {
         lblB.text = "B: " + lblB.text!
         lblC.text = "C: " + lblC.text!
         lblD.text = "D: " + lblD.text!
+        AskView.backgroundColor = UIColor(red: 2/255, green: 53/255, blue: 143/255, alpha: 1)
+        
         AskView.isHidden = false
     }
     
@@ -198,22 +214,37 @@ class ViewController: UIViewController {
         lblB.text = "B:  \(Int(pbB.progress * 100))%"
         lblC.text = "C:  \(Int(pbC.progress * 100))%"
         lblD.text = "D:  \(Int(pbD.progress * 100))%"
+        AskView.backgroundColor = UIColor(red: 2/255, green: 53/255, blue: 143/255, alpha: 1)
+
         AskView.isHidden = false
     }
 
     private func nextQuestion(qNbr: Int, tag: Int) {
-        if qNbr == 9 {
+        if qNbr == 1 {
             correctLabel.text = "Победа!"
-            correctLabel.textColor = .red
-            //hintLabel.text = questions[qNbr].hintB
+            correctLabel.font = UIFont.systemFont(ofSize: 20.0)
+            //correctLabel.textColor = .red
             self.nextButton.setTitle("OK", for: .normal)
+            hintLabel.text = "Вы  - Миллионер!"
         } else {
-            correctLabel.textColor = UIColor(red: 0/255, green: 122/255, blue: 255/255, alpha: 1)
+            afterAnswerView.backgroundColor = UIColor(red: 2/255, green: 53/255, blue: 143/255, alpha: 1)
+            correctLabel.textColor = UIColor.white
             correctLabel.text = "Правильно!"
-            hintLabel.font = UIFont.boldSystemFont(ofSize: 25.0)
-            hintLabel.textColor = UIColor(red: 4/255, green: 213/255, blue: 134/255, alpha: 1)
-            hintLabel.text = "Ваш выигрыш \n" + winArray[qNbr + 1] + "₴"
+
             self.nextButton.setTitle("Продолжить", for: .normal)
+            self.nextButton.backgroundColor = .clear
+            self.nextButton.layer.cornerRadius = 10
+            self.nextButton.layer.borderWidth = 1
+            self.nextButton.layer.borderColor = UIColor.white.cgColor
+            self.nextButton.setTitleColor(.white, for: .normal)
+            
+            hintLabel.textColor = UIColor.white
+            let longString = "Ваш выигрыш \n" + winArray[qNbr + 1] + "₴"
+            let longestWord = winArray[qNbr + 1] + "₴"
+            let longestWordRange = (longString as NSString).range(of: longestWord)
+            let attributedString = NSMutableAttributedString(string: longString, attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 15)])
+            attributedString.setAttributes([NSAttributedStringKey.font : UIFont.boldSystemFont(ofSize: 26), NSAttributedStringKey.foregroundColor : UIColor(red: 4/255, green: 213/255, blue: 134/255, alpha: 1)], range: longestWordRange)
+            hintLabel.attributedText = attributedString
         }
         for btn in answerButtons {
             if btn.tag == tag {
@@ -264,8 +295,18 @@ class ViewController: UIViewController {
                 correctAnswerText = questions[currentQuestion].ansD
         }
         hintLabel.text = "Правильный ответ: " + correctAnswerText
-        
+        hintLabel.textColor = UIColor.white
         self.nextButton.setTitle("Начать сначала", for: .normal)
+        
+        afterAnswerView.backgroundColor = UIColor(red: 2/255, green: 53/255, blue: 143/255, alpha: 1)
+        correctLabel.textColor = UIColor.white
+        self.nextButton.backgroundColor = .clear
+        self.nextButton.layer.cornerRadius = 10
+        self.nextButton.layer.borderWidth = 1
+        self.nextButton.layer.borderColor = UIColor.white.cgColor
+        self.nextButton.setTitleColor(.white, for: .normal)
+        
+        
         self.questions = MyData.shared.questions
         for btn in answerButtons {
             if btn.tag == tag {
